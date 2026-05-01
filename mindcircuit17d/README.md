@@ -1,1 +1,0 @@
-# mindcircuit17d
