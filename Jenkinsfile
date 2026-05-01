@@ -1,29 +1,10 @@
-pipeline {
-    agent any
+@Library('my-shared-lib') _
 
-    stages {
-	
-        stage('checkout') {
-            steps {
-                echo 'git checkout stage'
-				git branch: 'main', url: 'https://github.com/devopstraininghub/mindcircuit17d.git'
-            }
-        }
-
-        stage('build') {
-            steps {
-                echo 'Building with maven '
-				sh 'mvn clean install '
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-                echo 'Deploying to tomcat'
-				deploy adapters: [tomcat9(alternativeDeploymentContext: '', credentialsId: 'tomcat', path: '', url: 'http://54.160.144.88:8081/')], contextPath: 'insta', war: '**/*.war'
-				
-            }
-        }		
-		
-    }
-}
+cicdPipeline(
+    branch: 'main',
+    repo: 'https://github.com/jadalaramani/tomcat_shared_library.git',
+    credentialsId: 'tomcat',
+    url: 'http://13.217.10.33:8081/',
+    contextPath: 'shared-lib',
+    warFile: '**/*.war'
+)
